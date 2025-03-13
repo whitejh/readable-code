@@ -22,6 +22,9 @@ public class Cell {
         this.isOpened = isOpened;
     }
 
+    // 정적 팩토리 메서드 => 객체 생성의 역할을 하는 클래스 메서드 (의미)
+    // : 직접적으로 생성자를 통해 객체를 생성하는 것이 아닌 메서드를 통해서 객체를 생성
+    // 정적 팩토리 메서드를 사용하는 이유 : 이름을 별도로 줄 수 있어서 (여기선 of)
     public static Cell of(int nearbyLandMineCount, boolean isLandMine, boolean isFlagged, boolean isOpened) {
         return new Cell(nearbyLandMineCount, isLandMine, isFlagged, isOpened);
     }

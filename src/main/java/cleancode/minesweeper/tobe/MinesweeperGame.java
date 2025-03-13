@@ -10,7 +10,7 @@ public class MinesweeperGame {
     public static final int BOARD_COL_SIZE = 10;
     public static final Scanner SCANNER = new Scanner(System.in);
     private static final Cell[][] BOARD = new Cell[BOARD_ROW_SIZE][BOARD_COL_SIZE];
-    public static final int LAND_MINE_COUNT = 10;
+    public static final int LAND_MINE_COUNT = 10; // 설치한 지뢰 개수
 
     private static int gameStatus = 0; // 0: 게임 중, 1: 승리, -1: 패배
 
@@ -34,6 +34,7 @@ public class MinesweeperGame {
                 String cellInput = getCellInputFromUser();
                 String userActionInput = getUserActionInputFromUser();
                 actOnCell(cellInput, userActionInput);
+
             } catch (AppException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
@@ -63,7 +64,7 @@ public class MinesweeperGame {
             checkIfGameIsOver();
             return;
         }
-        // System.out.println("잘못된 번호를 선택하셨습니다.");
+
         throw new AppException("잘못된 번호를 선택하셨습니다.");
     }
 
@@ -130,7 +131,7 @@ public class MinesweeperGame {
     }
 
     private static int convertRowFrom(char cellInputRow) {
-        int rowIndex = Character.getNumericValue(cellInputRow);
+        int rowIndex = Character.getNumericValue(cellInputRow) - 1; // a는 10으로 변환
         if (rowIndex >= BOARD_ROW_SIZE) {
             throw new AppException("잘못된 입력입니다.");
         }
@@ -233,7 +234,7 @@ public class MinesweeperGame {
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         System.out.println("지뢰찾기 게임 시작!");
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    } // 단축키 : option + command + M
+    }
 
     private static void open(int row, int col) {
         if (row < 0 || row >= BOARD_ROW_SIZE || col < 0 || col >= BOARD_COL_SIZE) {
@@ -249,7 +250,6 @@ public class MinesweeperGame {
         BOARD[row][col].open();
 
         if (BOARD[row][col].hasLandMineCount()) {
-            BOARD[row][col].open();
             return;
         }
 
