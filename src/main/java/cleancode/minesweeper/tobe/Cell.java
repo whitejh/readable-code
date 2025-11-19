@@ -4,13 +4,13 @@ public class Cell {
 
     private static final String FLAG_SIGN = "⚑";
     private static final String LAND_MINE_SIGN = "☼";
-    private static final String UNCHECKED_SIGN = "□";
-    private static final String EMPTY_SIGN = "■";
+    private static final String UNCHECKED_SIGN = "□"; // 체크되지 않음 (닫힌 상태)
+    private static final String EMPTY_SIGN = "■";     // 열었더니 비어있음 (열린 상태)
 
-    private int nearbyLandMineCount;
-    private boolean isLandMine;
-    private boolean isFlagged;
-    private boolean isOpened;
+    private int nearbyLandMineCount; // 셀의 근처 지뢰 수
+    private boolean isLandMine;     // 지뢰 여부
+    private boolean isFlagged;      // 깃발 꽂힌 여부
+    private boolean isOpened;       // 열린 여부
 
     // Cell이 가진 속성 : 근처 지뢰 숫자, 지뢰 여부
     // Cell의 상태 : 깃발 유무, 열렸다/닫혔다, 사용자가 확인함
@@ -30,7 +30,7 @@ public class Cell {
     }
 
     public static Cell create() {
-        return of(0, false, false, false);
+        return of(0, false, false, false); // 빈 Cell 만들기
     }
 
     public void turnOnLandMine() {
@@ -50,7 +50,7 @@ public class Cell {
     }
 
     public boolean isChecked() {
-        return isFlagged || isOpened;
+        return isFlagged || isOpened; // 깃발이 꽂혀있거나 열려있는 경우가 체크된 상태
     }
 
     public boolean isLandMine() {
@@ -65,6 +65,7 @@ public class Cell {
         return this.nearbyLandMineCount != 0;
     }
 
+    // 지금 cell의 상태 결정하는 메서드
     public String getSign() {
         if (isOpened) {
             if (isLandMine) {
@@ -74,12 +75,12 @@ public class Cell {
                 return String.valueOf(nearbyLandMineCount);
             }
             return EMPTY_SIGN;
-        }
+        } // 열렸을 때의 상황
 
-        if (isFlagged) {
+        if (isFlagged) { // 깃발 꽂혀있는 경우
             return FLAG_SIGN;
         }
 
-        return UNCHECKED_SIGN;
+        return UNCHECKED_SIGN; // 열려있지도 않고 깃발도 없어서 체크 안 된 상태
     }
 }

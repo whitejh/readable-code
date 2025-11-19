@@ -125,8 +125,8 @@ public class MinesweeperGame {
 
     // stream 은 삼중 depth 에 대한 복잡도 해소
     private static boolean isAllCellChecked() {
-        return Arrays.stream(BOARD)
-                .flatMap(Arrays::stream)
+        return Arrays.stream(BOARD) // Stream<Cell[]>
+                .flatMap(Arrays::stream) // Stream<Cell>
                 .allMatch(Cell::isChecked);
     }
 
@@ -238,18 +238,18 @@ public class MinesweeperGame {
 
     private static void open(int row, int col) {
         if (row < 0 || row >= BOARD_ROW_SIZE || col < 0 || col >= BOARD_COL_SIZE) {
+            return; // 경계 밖 벗어난 경우
+        }
+        if (BOARD[row][col].isOpened()) { // 이미 열려있는 경우
             return;
         }
-        if (BOARD[row][col].isOpened()) {
-            return;
-        }
-        if (isLandMineCell(row, col)) {
+        if (isLandMineCell(row, col)) { // 지뢰 cell인 경우
             return;
         }
 
-        BOARD[row][col].open();
+        BOARD[row][col].open(); // 하나도 안 열린 경우
 
-        if (BOARD[row][col].hasLandMineCount()) {
+        if (BOARD[row][col].hasLandMineCount()) { // 숫자 cell인 경우
             return;
         }
 
